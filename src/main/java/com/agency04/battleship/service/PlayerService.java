@@ -11,7 +11,5 @@ public interface PlayerService {
 
     PlayerDTO getPlayerById(int playerId);
 
-    PlayerDTO convertEntityToDto(Player player);
-
     List<PlayerDTO> getAllPlayers();
 }
