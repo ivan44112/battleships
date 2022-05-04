@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerDTOMapper implements PlayerDTOMapperService {
+public class PlayerDTOMapper {
 
     private final PlayerRepository playerRepository;
 
@@ -16,7 +16,6 @@ public class PlayerDTOMapper implements PlayerDTOMapperService {
         this.playerRepository = playerRepository;
     }
 
-    @Override
     public PlayerDTO convertEntityToDto(Player player) {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setId(player.getId());
@@ -25,7 +24,6 @@ public class PlayerDTOMapper implements PlayerDTOMapperService {
         return playerDTO;
     }
 
-    @Override
     public PlayerDTO getPlayerById(int playerId) {
         boolean exists = playerRepository.existsById(playerId);
         if (!exists) {
