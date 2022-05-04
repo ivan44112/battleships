@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerDTOMapper {
+public class PlayerMapper {
 
     private final PlayerRepository playerRepository;
 
     @Autowired
-    public PlayerDTOMapper(PlayerRepository playerRepository) {
+    public PlayerMapper(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 
-    public PlayerDTO convertEntityToDto(Player player) {
+    public PlayerDTO mapEntityToDto(Player player) {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setId(player.getId());
         playerDTO.setName(player.getName());
@@ -24,11 +24,19 @@ public class PlayerDTOMapper {
         return playerDTO;
     }
 
+    public Player mapDtoToEntity(PlayerDTO playerDTO) {
+        Player mappedPlayer = new Player();
+        mappedPlayer.setId(playerDTO.getId());
+        mappedPlayer.setName(playerDTO.getName());
+        mappedPlayer.setEmail(playerDTO.getEmail());
+        return mappedPlayer;
+    }
+
     public PlayerDTO getPlayerById(int playerId) {
         boolean exists = playerRepository.existsById(playerId);
         if (!exists) {
             throw new IllegalStateException("Player does not exist");
         }
-        return convertEntityToDto(playerRepository.findById(playerId).get());
+        return mapEntityToDto(playerRepository.findById(playerId).get());
     }
 }

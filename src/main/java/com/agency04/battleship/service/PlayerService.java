@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PlayerService {
 
-    void createPlayer(Player player);
+    Player createPlayer(PlayerDTO player);
 
     PlayerDTO getPlayerById(int playerId);
 

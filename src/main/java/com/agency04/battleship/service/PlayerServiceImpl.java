@@ -1,7 +1,7 @@
 package com.agency04.battleship.service;
 
 import com.agency04.battleship.dto.PlayerDTO;
-import com.agency04.battleship.mapper.PlayerDTOMapper;
+import com.agency04.battleship.mapper.PlayerMapper;
 import com.agency04.battleship.model.Player;
 import com.agency04.battleship.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,17 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final PlayerRepository playerRepository;
 
-    private final PlayerDTOMapper playerDTOMapper;
+    private final PlayerMapper playerMapper;
 
     @Autowired
-    public PlayerServiceImpl(PlayerRepository playerRepository, PlayerDTOMapper playerDTOMapper) {
+    public PlayerServiceImpl(PlayerRepository playerRepository, PlayerMapper playerMapper) {
         this.playerRepository = playerRepository;
-        this.playerDTOMapper = playerDTOMapper;
+        this.playerMapper = playerMapper;
     }
 
+
     @Override
-    public void createPlayer(Player player) {
+    public Player createPlayer(PlayerDTO player) {
         Optional<Player> playerByEmail = playerRepository.findPlayerByEmail(player.getEmail());
         boolean validEmail = player.getEmail().contains("@");
         playerByEmail.ifPresentOrElse(presentPlayer -> {
@@ -37,13 +38,14 @@ public class PlayerServiceImpl implements PlayerService {
                 throw new IllegalStateException("ERROR-email-must-include-@");
             }
         });
-        playerDTOMapper.convertEntityToDto(playerRepository.save(player));
+        Player newPlayer = playerMapper.mapDtoToEntity(player);
+        return playerRepository.save(newPlayer);
     }
 
     @Override
     @Transactional(readOnly = true)
     public PlayerDTO getPlayerById(int playerId) {
-        return playerDTOMapper.getPlayerById(playerId);
+        return playerMapper.getPlayerById(playerId);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class PlayerServiceImpl implements PlayerService {
     public List<PlayerDTO> getAllPlayers() {
         return playerRepository.findAll()
                 .stream()
-                .map(player -> playerDTOMapper.convertEntityToDto(player))
+                .map(player -> playerMapper.mapEntityToDto(player))
                 .collect(Collectors.toList());
     }
 }
