@@ -22,5 +22,6 @@ public class Game {
     private Player player2;
     @Column(name = "starting_player")
     private int startingPlayer;
+    private String status = "IN PROGRESS";
 
 }

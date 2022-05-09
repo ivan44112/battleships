@@ -36,12 +36,6 @@ public class GameController {
         return gameService.getAllGames();
     }
 
-    /*@GetMapping("/player/{playerId}/game/{gameId}")
-    public List<PlayerDTO> getAllPlayerGames(@PathVariable("playerId") int playerId,
-                                        @PathVariable("gameId") int gameId) {
-        return gameService.getAllPlayerGames(playerId, gameId);
-    }*/
-
     @GetMapping("/player/{playerId}/game/list")
     public List<PlayerDTO> getAllPlayerGames(@PathVariable("playerId") int playerId) {
         return gameService.getAllPlayerGames(playerId);

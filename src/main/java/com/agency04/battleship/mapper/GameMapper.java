@@ -14,6 +14,7 @@ public class GameMapper {
         gameDTO.setPlayer1(game.getPlayer1());
         gameDTO.setPlayer2(game.getPlayer2());
         gameDTO.setStartingPlayer(game.getStartingPlayer());
+        gameDTO.setStatus(game.getStatus());
         return gameDTO;
     }
 
@@ -23,6 +24,7 @@ public class GameMapper {
         mappedGame.setPlayer1(gameDTO.getPlayer1());
         mappedGame.setPlayer2(gameDTO.getPlayer2());
         mappedGame.setStartingPlayer(gameDTO.getStartingPlayer());
+        mappedGame.setStatus(gameDTO.getStatus());
         return mappedGame;
     }
 

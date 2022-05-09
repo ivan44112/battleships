@@ -10,5 +10,5 @@ public class GameDTO {
     private Player player1;
     private Player player2;
     private int startingPlayer;
-
+    private String status = "IN PROGRESS";
 }
