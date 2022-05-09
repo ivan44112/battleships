@@ -1,7 +1,9 @@
 package com.agency04.battleship.service;
 
 import com.agency04.battleship.dto.GameDTO;
+import com.agency04.battleship.dto.PlayerDTO;
 import com.agency04.battleship.mapper.GameMapper;
+import com.agency04.battleship.mapper.PlayerMapper;
 import com.agency04.battleship.model.Game;
 import com.agency04.battleship.model.Player;
 import com.agency04.battleship.repository.GameRepository;
@@ -24,13 +26,17 @@ public class GameServiceImpl implements GameService {
 
     private final GameMapper gameMapper;
 
+    private final PlayerMapper playerMapper;
+
     @Autowired
     public GameServiceImpl(GameRepository gameRepository,
                            PlayerRepository playerRepository,
-                           GameMapper gameMapper) {
+                           GameMapper gameMapper,
+                           PlayerMapper playerMapper) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.gameMapper = gameMapper;
+        this.playerMapper = playerMapper;
     }
 
     @Override
@@ -69,6 +75,23 @@ public class GameServiceImpl implements GameService {
         return gameRepository.findAll()
                 .stream()
                 .map(game -> gameMapper.mapEntityToDto(game))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlayerDTO> getAllPlayerGames(int playerId) {
+        boolean playerExists = playerRepository.existsById(playerId);
+
+        if (!playerExists) throw new IllegalStateException(
+                "Player does not exist"
+        );
+
+        return playerRepository.findById(playerId)
+                .stream()
+                .map(player -> playerMapper.mapEntityToDto(player))
+                .filter(playerDTO -> playerDTO.getGameList()
+                        .contains(gameRepository.findById(playerId).get()))
                 .collect(Collectors.toList());
     }
 }

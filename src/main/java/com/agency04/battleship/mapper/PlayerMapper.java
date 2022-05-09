@@ -21,6 +21,9 @@ public class PlayerMapper {
         playerDTO.setId(player.getId());
         playerDTO.setName(player.getName());
         playerDTO.setEmail(player.getEmail());
+        playerDTO.setPlayerOneGames(player.getPlayerOneGames());
+        playerDTO.setPlayerTwoGames(player.getPlayerTwoGames());
+        playerDTO.setGameList(player.getGameList());
         return playerDTO;
     }
 
@@ -29,6 +32,9 @@ public class PlayerMapper {
         mappedPlayer.setId(playerDTO.getId());
         mappedPlayer.setName(playerDTO.getName());
         mappedPlayer.setEmail(playerDTO.getEmail());
+        mappedPlayer.setPlayerOneGames(playerDTO.getPlayerOneGames());
+        mappedPlayer.setPlayerTwoGames(playerDTO.getPlayerTwoGames());
+        mappedPlayer.setGameList(playerDTO.getGameList());
         return mappedPlayer;
     }
 

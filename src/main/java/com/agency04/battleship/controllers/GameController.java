@@ -1,12 +1,12 @@
 package com.agency04.battleship.controllers;
 
 import com.agency04.battleship.dto.GameDTO;
+import com.agency04.battleship.dto.PlayerDTO;
 import com.agency04.battleship.mapper.GameMapper;
 import com.agency04.battleship.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -34,5 +34,16 @@ public class GameController {
     @GetMapping("/game/list")
     public List<GameDTO> getAllGames() {
         return gameService.getAllGames();
+    }
+
+    /*@GetMapping("/player/{playerId}/game/{gameId}")
+    public List<PlayerDTO> getAllPlayerGames(@PathVariable("playerId") int playerId,
+                                        @PathVariable("gameId") int gameId) {
+        return gameService.getAllPlayerGames(playerId, gameId);
+    }*/
+
+    @GetMapping("/player/{playerId}/game/list")
+    public List<PlayerDTO> getAllPlayerGames(@PathVariable("playerId") int playerId) {
+        return gameService.getAllPlayerGames(playerId);
     }
 }
