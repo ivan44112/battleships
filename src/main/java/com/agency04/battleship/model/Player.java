@@ -1,14 +1,15 @@
 package com.agency04.battleship.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"playerOneGames", "playerTwoGames"})
 public class Player {
 
     @Id
@@ -16,5 +17,16 @@ public class Player {
     private int id;
     private String name;
     private String email;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "player1")
+    private List<Game> playerOneGames;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "player2")
+    private List<Game> playerTwoGames;
+    @Transient
+    private List<Game> gameList;
 
+    @PostLoad
+    public void appendGames() {
+        this.gameList = new ArrayList<>(playerOneGames);
+        gameList.addAll(playerTwoGames);
+    }
 }
